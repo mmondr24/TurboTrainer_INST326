@@ -97,8 +97,12 @@ class CarFlashcardGame:
         """ Allows the user to study the flashcards in the current set
 
         Attributes:
-        correct_answers(int): counter for correct answers
-        incorrect_answers(int): counter for incorrect answers
+            correct_answers(int): counter for correct answers
+            incorrect_answers(int): counter for incorrect answers
+            user_answer(str): Definition value entered by user
+            correct_answer(str): Correct definition value 
+            total_questions(int): Total number of flashcards in set 
+            current_percentage(float): Percentage of questions answered correctly in the current set
         """
         if not self.current_flashcard_set: #Checks if a current flashcard set is selected
             print("No flashcard set selected. Please create or choose a flashcard set.")
@@ -139,6 +143,11 @@ class CarFlashcardGame:
             self.save_user_progress()
 
     def retry_incorrect_flashcards(self):
+        """ Retrys flashcards until 100% accuracy is achieved.
+        Attributes:
+            incorrect_flashcards(list): list of flashcards answered incorrectly in the current set
+
+        """
         progress = self.flashcard_sets[self.current_flashcard_set]['progress']
         incorrect_flashcards = progress['incorrect_flashcards']
 
@@ -152,6 +161,11 @@ class CarFlashcardGame:
                     print(f"Incorrect. No car parts for you. The correct answer is: {correct_answer}")
 
     def load_user_progress(self):
+        """ Loads user progress from a JSON file
+
+        Attributes:
+            progress_file(str) = name of json file
+        """
         progress_file = 'flashcard_game_progress.json'
         try:
             with open(progress_file, 'r') as file:
@@ -160,14 +174,24 @@ class CarFlashcardGame:
             return {}
 
     def save_user_progress(self):
+        """ Saves user progress in a JSON file
+        Attributes:
+            progress_file(str) = name of json file
+        """
         progress_file = 'flashcard_game_progress.json'
         with open(progress_file, 'w') as file:
             json.dump(self.flashcard_sets, file)
 
 def main():
+    """ Runs the TurboTrainer Flashcard Game and initializes Game Menu input and output
+    Attributes:
+        car_flashcard_game = instance of CarFlashcardGame Class
+
+    """
+    
     car_flashcard_game = CarFlashcardGame()
 
-    while True:
+    while True: 
         print("\n Game Menu:")
         print("1. Create New Flashcard Set")
         print("2. Choose Flashcard Set")
